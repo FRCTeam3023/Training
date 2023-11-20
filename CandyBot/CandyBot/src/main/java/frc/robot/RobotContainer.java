@@ -5,12 +5,15 @@
 package frc.robot;
 
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.SideMotorControl;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.SpinSubsystem;
+import frc.robot.subsystems.motorontheside;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -23,15 +26,20 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
  private final DriveTrain driveTrain = new DriveTrain();
  private final SpinSubsystem spinSubsystem = new SpinSubsystem();
+ private final motorontheside sideMotor = new motorontheside();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   // Joystick joystick = new Joystick(0);
   Joystick controller = new Joystick(3);
   private final JoystickDrive joystickDrive = new JoystickDrive(driveTrain, spinSubsystem, controller);
+
+  private final SideMotorControl sideMotorControl = new SideMotorControl(sideMotor, controller);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
     driveTrain.setDefaultCommand(joystickDrive);
+
+    sideMotor.setDefaultCommand(sideMotorControl);
   }
 
   /**
@@ -44,6 +52,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
